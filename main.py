@@ -7,7 +7,8 @@ from enemy import Enemy
 def main():
     pygame.init()
     pygame.mixer.init()
-    screen = pygame.display.set_mode((800, 600))
+    screen_width = 800
+    screen = pygame.display.set_mode((screen_width, 600))
     pygame.display.set_caption("アクションゲーム")
 
     # BGMの読み込みと再生
@@ -15,7 +16,7 @@ def main():
     pygame.mixer.music.play(-1)  # -1でループ再生
 
     player = Player(400, 500)
-    enemy = Enemy(200, 500)
+    enemy = Enemy(200, 500, screen_width)
     all_sprites = pygame.sprite.Group()
     all_sprites.add(player)
     all_sprites.add(enemy)
