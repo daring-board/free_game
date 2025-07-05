@@ -16,10 +16,13 @@ def main():
     pygame.mixer.music.play(-1)  # -1でループ再生
 
     player = Player(400, 500)
+    enemies = pygame.sprite.Group()
     enemy = Enemy(200, 500, screen_width)
+    enemies.add(enemy)
+
     all_sprites = pygame.sprite.Group()
     all_sprites.add(player)
-    all_sprites.add(enemy)
+    all_sprites.add(enemies)
 
     clock = pygame.time.Clock()
 
@@ -30,6 +33,13 @@ def main():
                 sys.exit()
 
         all_sprites.update()
+
+        # プレイヤーと敵の衝突判定
+        collided_enemies = pygame.sprite.spritecollide(player, enemies, False)
+        for enemy in collided_enemies:
+            # プレイヤーが落下中 (vel_y > 0) で、プレイヤーの足が敵の頭の上にある場合に敵を倒す
+            if player.vel_y > 0 and player.rect.bottom < enemy.rect.centery:
+                enemy.kill()
 
         screen.fill((0, 0, 0))  # 画面を黒で塗りつぶす
         all_sprites.draw(screen)
